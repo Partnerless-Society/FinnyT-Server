@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@langchain/core": "^1.1.36",
+    "@langchain/groq": "^1.1.5",
+    "@langchain/langgraph": "^1.2.6",
+    "@langchain/langgraph-checkpoint-mongodb": "^1.2.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "init": "^0.1.2",
+    "jsonwebtoken": "^9.0.3",
+    "langchain": "^1.2.37",
+    "mongoose": "^9.3.3"
+  },
+  "type": "module"
+}
