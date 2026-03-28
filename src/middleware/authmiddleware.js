@@ -5,7 +5,7 @@ export const signupmiddleware = (req, res, next) => {
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     try {
-        if (!name && !email && password) {
+        if (!name || !email || !password || !confirmpassword) {
             return res.status(400).json({
                 success: false,
                 message: "Please Enter The All The Informations."
@@ -19,7 +19,7 @@ export const signupmiddleware = (req, res, next) => {
             })
         }
 
-        if (typeof email !== "string" && !emailRegex.test(email)) {
+        if (typeof email !== "string" || !emailRegex.test(email)) {
             return res.status(400).json({
                 success: false,
                 message: "Please Enter The Valid Useremail"
@@ -40,8 +40,8 @@ export const signupmiddleware = (req, res, next) => {
             })
         }
 
-        if(password !== confirmpassword){
-              return res.status(400).json({
+        if (password !== confirmpassword) {
+            return res.status(400).json({
                 success: false,
                 message: "Passwords Do Not Match."
             })
@@ -63,14 +63,14 @@ export const loginmiddleware = (req, res, next) => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     try {
-        if (!email && password) {
+        if (!email || !password) {
             return res.status(400).json({
                 success: false,
                 message: "Please Enter The All The Informations."
             })
         }
 
-        if (typeof email !== "string" && !emailRegex.test(email)) {
+        if (typeof email !== "string" || !emailRegex.test(email)) {
             return res.status(400).json({
                 success: false,
                 message: "Please Enter The Valid Useremail"
@@ -81,6 +81,13 @@ export const loginmiddleware = (req, res, next) => {
             return res.status(400).json({
                 success: false,
                 message: "Please Enter The Valid Useremail"
+            })
+        }
+
+        if (password.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: "Please Enter Password Greater Than 8 Letters"
             })
         }
 
