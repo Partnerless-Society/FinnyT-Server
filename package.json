@@ -12,7 +12,8 @@
     "init": "^0.1.2",
     "jsonwebtoken": "^9.0.3",
     "langchain": "^1.2.37",
-    "mongoose": "^9.3.3"
+    "mongoose": "^9.3.3",
+    "node-cron": "^4.2.1"
   },
   "type": "module"
 }

@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+import "../config/dotenvservice.js";
 
 export const signupmiddleware = (req, res, next) => {
 
@@ -103,9 +105,17 @@ export const loginmiddleware = (req, res, next) => {
 }
 
 export const authcheck = (req, res, next) => {
-    const token = req.cookies;
+    const token = req.cookies.session;
     if (!token) {
         return;
     }
-    next();
+    try {
+        const decoded = jwt.verify(token, process.env.JWT);
+        req.userId = decoded.id;
+        next();
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(403).json({ success: false, message: "Session expired" });
+    }
 }

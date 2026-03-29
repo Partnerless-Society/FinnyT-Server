@@ -26,8 +26,7 @@ export const login = async (req, res) => {
         }
 
         const token = jwt.sign({
-            name: findemail.name,
-            email: findemail.email
+            id: findemail._id,
         }, process.env.JWT)
 
         res.cookie("session", token, {
@@ -81,6 +80,32 @@ export const signup = async (req, res) => {
         return res.json({
             success: true,
             message: "Account Created Successfully."
+        })
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "It seems something went wrong."
+        })
+    }
+}
+
+export const userfetch = async (req, res) => {
+    const id = req.userId;
+    try {
+        const finduserdata = await userquery.findOne({
+            _id: id
+        });
+        const data = {
+            id: finduserdata._id,
+            name: finduserdata.name,
+            email: finduserdata.email,
+            type: finduserdata.type
+        }
+        return res.json({
+            success: true,
+            data
         })
     }
     catch (err) {
