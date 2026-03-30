@@ -107,7 +107,9 @@ export const loginmiddleware = (req, res, next) => {
 export const authcheck = (req, res, next) => {
     const token = req.cookies.session;
     if (!token) {
-        return;
+        return res.status(401).json({ 
+            success: false, 
+        });
     }
     try {
         const decoded = jwt.verify(token, process.env.JWT);

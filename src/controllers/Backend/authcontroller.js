@@ -1,8 +1,8 @@
-import userquery from "../model/userquery.js";
+import userquery from "../../model/userquery.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import "../config/dotenvservice.js"
-
+import "../../config/dotenvservice.js"
+import dataquery from "../../model/dataquery.js";
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
@@ -24,6 +24,16 @@ export const login = async (req, res) => {
                 message: "Invalid Email or Password"
             })
         }
+
+        await dataquery.findOneAndUpdate({
+            userId: findemail._id
+        }, {
+            income: 0,
+            total: 0,
+            outcome: 0
+        }, {
+            upsert: true
+        })
 
         const token = jwt.sign({
             id: findemail._id,
@@ -77,6 +87,7 @@ export const signup = async (req, res) => {
             upsert: true
         })
 
+
         return res.json({
             success: true,
             message: "Account Created Successfully."
@@ -93,10 +104,16 @@ export const signup = async (req, res) => {
 
 export const userfetch = async (req, res) => {
     const id = req.userId;
+    if (!id) {
+        return res.status(401).json({
+            success: false,
+        });
+    }
     try {
         const finduserdata = await userquery.findOne({
             _id: id
         });
+
         const data = {
             id: finduserdata._id,
             name: finduserdata.name,
@@ -115,4 +132,16 @@ export const userfetch = async (req, res) => {
             message: "It seems something went wrong."
         })
     }
+}
+
+export const handlelogout = async (req, res) => {
+    res.clearCookie("session", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+    });
+    res.status(200).json({
+        success: true,
+        message: "Successfully Logged out"
+    });
 }
