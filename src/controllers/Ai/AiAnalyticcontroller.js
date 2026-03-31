@@ -3,13 +3,14 @@ import { Ai } from "../../services/aiservice.js";
 import { AnalyseAgent } from "../../prompt/systemprompt.js";
 
 export const AiAnalytics = async (req, res) => {
-    const { total, income, outcome } = req.body;
+    const { total, income, outcome , net } = req.body;
 
     try {
         const message = `Here is the data :
-        total : ${total},
-        income : ${income},
-        outcome : ${outcome}
+        total : ${total} Ks,
+        income : ${income} Ks,
+        outcome : ${outcome} Ks,
+        networth : ${net} Ks
     `
         const response = await Ai.invoke([
             AnalyseAgent,
@@ -17,7 +18,7 @@ export const AiAnalytics = async (req, res) => {
         ])
 
         const aianalyse = response.content;
-        
+
         return res.json({
             success : true,
             data : aianalyse

@@ -7,7 +7,6 @@ const data = new mongoose.Schema({
         required: true
     },
     income: { type: Number, default: 0 },
-    total: { type: Number, default: 0 },
     outcome: { type: Number, default: 0 }
 }, {
     timestamps: true

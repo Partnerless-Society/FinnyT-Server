@@ -7,7 +7,6 @@ export const Dashboarddata = async (req, res) => {
         const dashboarddata = await dataquery.findOne({userId : id})
         return res.json({
             success : true,
-            total : dashboarddata.total,
             income : dashboarddata.income,
             outcome : dashboarddata.outcome
         })

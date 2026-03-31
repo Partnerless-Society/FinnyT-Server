@@ -5,6 +5,7 @@ Limit your response to 100 words.
 
 ROLE: 
 Provide a concise summary of financial health followed by 2-3 actionable tips.
+The currency rate is in MMK(Myanmar Kyats).
 
 OUTPUT RULES:
 1. DO NOT use markdown code blocks (\`\`\`html). 

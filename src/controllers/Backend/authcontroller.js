@@ -25,15 +25,17 @@ export const login = async (req, res) => {
             })
         }
 
-        await dataquery.findOneAndUpdate({
-            userId: findemail._id
-        }, {
-            income: 0,
-            total: 0,
-            outcome: 0
-        }, {
-            upsert: true
-        })
+        await dataquery.findOneAndUpdate(
+            { userId: findemail._id },
+            {
+                $setOnInsert: {
+                    income: 0,
+                    total: 0,
+                    outcome: 0
+                }
+            },
+            { upsert: true }
+        );
 
         const token = jwt.sign({
             id: findemail._id,
