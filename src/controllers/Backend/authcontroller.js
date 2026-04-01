@@ -1,7 +1,7 @@
 import userquery from "../../model/userquery.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import "../../config/dotenvservice.js"
+import "../../config/dotenvconfig.js"
 import dataquery from "../../model/dataquery.js";
 
 export const login = async (req, res) => {

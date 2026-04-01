@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import "../config/dotenvservice.js";
+import "../config/dotenvconfig.js";
 
 export const signupmiddleware = (req, res, next) => {
 
