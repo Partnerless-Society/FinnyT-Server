@@ -5,6 +5,7 @@ import userroute from "./routes/backendroute/userroute.js";
 import { mongoconnect } from "./services/mongoconnect.js";
 import dataroute from "./routes/backendroute/dataroute.js";
 import airoute from "./routes/airoute/airoute.js";
+import serviceroute from "./routes/airoute/serviceroute.js";
 
 await mongoconnect();
 
@@ -38,5 +39,6 @@ app.use((err, req, res, next) => {
 app.use("/user", userroute);
 app.use("/data", dataroute);
 app.use("/ai", airoute);
+app.use("/service", serviceroute);
 
 app.listen(4000, () => console.log("Server running..."));
