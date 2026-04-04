@@ -29,6 +29,7 @@ export const getMonthlyData = async (req, res) => {
 
         console.log(id)
         console.log(year)
+        
         const data = await monthlyreport.find({
             userId: id,
             year: Number(year)
