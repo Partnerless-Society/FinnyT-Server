@@ -74,6 +74,44 @@ export const editSheetData = tool(
                 },
             });
 
+            const meta = await sheets.spreadsheets.get({
+                spreadsheetId: spreadsheet_id
+            });
+
+            const sheetName = range.split("!")[0];
+
+            const sheet = meta.data.sheets.find(
+                s => s.properties.title === sheetName
+            );
+
+            const sheetId = sheet.properties.sheetId;
+
+            await sheets.spreadsheets.batchUpdate({
+                spreadsheetId: spreadsheet_id,
+                requestBody: {
+                    requests: [
+                        {
+                            repeatCell: {
+                                range: {
+                                    sheetId: sheetId,
+                                    startRowIndex: 0,
+                                    endRowIndex: 1
+                                },
+                                cell: {
+                                    userEnteredFormat: {
+                                        textFormat: {
+                                            bold: true
+                                        }
+                                    }
+                                },
+                                fields: "userEnteredFormat.textFormat.bold"
+                            }
+                        }
+                    ]
+                }
+            });
+
+
             return `Updated ${res.data.updatedCells} cells in range ${res.data.updatedRange}.`;
         } catch (error) {
             return `Error editing sheet: ${error.message}`;

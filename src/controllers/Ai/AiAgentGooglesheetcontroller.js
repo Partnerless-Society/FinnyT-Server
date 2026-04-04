@@ -4,6 +4,9 @@ import { GoogleSheetAgent } from "../../services/aiservice.js";
 export const Agentgooglesheetcreate = async (req, res) => {
     const { id, url, prompt } = req.body;
 
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    const spreadsheetid = match ? match[1] : null;
+
     try {
         const findservice = await serviceaccountquery.findOne({ userId: id });
         if (!findservice) {
@@ -17,7 +20,7 @@ export const Agentgooglesheetcreate = async (req, res) => {
             messages: [
                 {
                     role: "user",
-                    content: `The url of the google sheet is ${url} and the prompt is ${prompt}. 
+                    content: `The spreadsheet id is ${spreadsheetid} and the prompt is ${prompt}. 
                     You Support Type : Create. Meaning You cannot update or delete data when user requested`
                 }
             ]
@@ -53,6 +56,10 @@ export const Agentgooglesheetcreate = async (req, res) => {
 export const Agentgooglesheetupdate = async (req, res) => {
     const { id, url, prompt, row, col } = req.body;
 
+    
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    const spreadsheetid = match ? match[1] : null;
+
     try {
         const findservice = await serviceaccountquery.findOne({ userId: id });
         if (!findservice) {
@@ -66,9 +73,9 @@ export const Agentgooglesheetupdate = async (req, res) => {
             messages: [
                 {
                     role: "user",
-                    content: `The url of the google sheet is ${url} and the prompt is ${prompt}. 
-                    ${row && `Your row to update is ${row}` }
-                    ${col && `Your col to update is ${col}` }
+                    content: `The spreadsheet id is ${spreadsheetid}  and the prompt is ${prompt}. 
+                    ${row && `Your row to update is ${row}`}
+                    ${col && `Your col to update is ${col}`}
                      You Support Type : Update . Meaning You cannot create , add or delete data when user requested`
                 }
             ]
@@ -99,11 +106,15 @@ export const Agentgooglesheetupdate = async (req, res) => {
             message: "It seems something went wrong."
         })
     }
-} 
+}
 
 
 export const Agentgooglesheetdelete = async (req, res) => {
     const { id, url, prompt, row, col } = req.body;
+
+    
+    const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+    const spreadsheetid = match ? match[1] : null;
 
     try {
         const findservice = await serviceaccountquery.findOne({ userId: id });
@@ -118,9 +129,9 @@ export const Agentgooglesheetdelete = async (req, res) => {
             messages: [
                 {
                     role: "user",
-                    content: `The url of the google sheet is ${url} and the prompt is ${prompt}. 
-                    ${row && `Your row to delete is ${row}` }
-                    ${col && `Your col to delete is ${col}` }
+                    content: `The spreadsheet id is ${spreadsheetid}  and the prompt is ${prompt}. 
+                    ${row && `Your row to delete is ${row}`}
+                    ${col && `Your col to delete is ${col}`}
                      You Support Type : Delete. Meaning You cannot create , add or update data when user requested`
                 }
             ]

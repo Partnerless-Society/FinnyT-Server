@@ -11,8 +11,11 @@ cron.schedule('0 0 1 * *', async () => {
     try {
         const allUsers = await userquery.find({});
         const now = new Date();
-        const currentMonth = now.getMonth() + 1;
-        const currentYear = now.getFullYear();
+        
+        const lastDayOfPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+
+        const currentMonth = lastDayOfPrevMonth.getMonth() + 1;
+        const currentYear = lastDayOfPrevMonth.getFullYear();
 
         const reportPromises = allUsers.map(async (user) => {
             try {
