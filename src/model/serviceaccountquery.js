@@ -9,7 +9,7 @@ const serviceaccount = new mongoose.Schema({
     email: { type: String },
     key: { type: String },
     date: { type: Date },
-    url : {type : String}
+    url : [{type : String}]
 }, {
     timestamps: true
 });

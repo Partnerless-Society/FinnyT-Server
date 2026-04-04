@@ -65,7 +65,9 @@ export const AddUrl = async (req, res) => {
         await serviceaccountquery.findOneAndUpdate({
             userId: id
         }, {
-            url
+            $push: {
+                url
+            }
         }, {
             upsert: true
         })
