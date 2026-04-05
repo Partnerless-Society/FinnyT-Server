@@ -9,9 +9,13 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     const now = new Date();
-    
+
     try {
-        const findemail = await userquery.findOne({ email });
+       const findemail = await userquery.findOne({ 
+            email, 
+            type: "finnyT" 
+        });
+
         if (!findemail) {
             return res.status(400).json({
                 success: false,
@@ -102,7 +106,7 @@ export const signup = async (req, res) => {
         const encryptpassword = await bcrypt.hash(password, 7);
 
         await userquery.findOneAndUpdate({
-            email
+            email,
         }, {
             name,
             email,
@@ -112,10 +116,89 @@ export const signup = async (req, res) => {
             upsert: true
         })
 
-
         return res.json({
             success: true,
             message: "Account Created Successfully."
+        })
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "It seems something went wrong."
+        })
+    }
+}
+
+export const googlelogin = async (req, res) => {
+    const { name, email } = req.body;
+
+    const now = new Date();
+
+    try {
+        const findemail = await userquery.findOneAndUpdate(
+            {
+                email,
+                type: "google"
+            },
+            {
+                name,
+                email,
+                type: "google"
+            },
+            {
+                upsert: true,
+                new: true
+            }
+        );
+
+        await dataquery.findOneAndUpdate(
+            { userId: findemail._id },
+            {
+                $setOnInsert: {
+                    income: 0,
+                    total: 0,
+                    outcome: 0
+                }
+            },
+            { upsert: true }
+        );
+
+        await monthlyreport.findOneAndUpdate(
+            {
+                userId: findemail._id,
+                month: now.getMonth() + 1,
+                year: now.getFullYear()
+            },
+            {
+                $setOnInsert: {
+                    income: 0,
+                    outcome: 0,
+                    total: 0,
+                    networth: 0
+                }
+            },
+            {
+                upsert: true,
+                new: true
+            }
+        );
+
+        const token = jwt.sign({
+            id: findemail._id,
+        }, process.env.JWT)
+
+        res.cookie("session", token, {
+            maxAge: 24 * 60 * 60 * 60,
+            httpOnly: false,
+            //httpOnly : true,
+            //secure : process.env.NODE_ENV === "production",
+            sameSite: "strict"
+        })
+
+        return res.json({
+            success: true,
+            message: "Google Sign In Successful."
         })
     }
     catch (err) {
