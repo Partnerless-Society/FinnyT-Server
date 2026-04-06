@@ -44,26 +44,7 @@ export const login = async (req, res) => {
             { upsert: true }
         );
 
-        await monthlyreport.findOneAndUpdate(
-            {
-                userId: findemail._id,
-                month: now.getMonth() + 1,
-                year: now.getFullYear()
-            },
-            {
-                $setOnInsert: {
-                    income: 0,
-                    outcome: 0,
-                    total: 0,
-                    networth: 0
-                }
-            },
-            {
-                upsert: true,
-                new: true
-            }
-        );
-
+      
         const token = jwt.sign({
             id: findemail._id,
         }, process.env.JWT)
@@ -162,26 +143,6 @@ export const googlelogin = async (req, res) => {
                 }
             },
             { upsert: true }
-        );
-
-        await monthlyreport.findOneAndUpdate(
-            {
-                userId: findemail._id,
-                month: now.getMonth() + 1,
-                year: now.getFullYear()
-            },
-            {
-                $setOnInsert: {
-                    income: 0,
-                    outcome: 0,
-                    total: 0,
-                    networth: 0
-                }
-            },
-            {
-                upsert: true,
-                new: true
-            }
         );
 
         const token = jwt.sign({

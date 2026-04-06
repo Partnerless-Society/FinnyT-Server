@@ -112,3 +112,32 @@ export const fetchurl = async (req, res) => {
     }
 }
 
+export const Serviceaccdelete = async (req, res) => {
+    const { id } = req.body;
+    try {
+
+        const deletedAccount = await serviceaccountquery.findOneAndDelete({
+            userId: id
+        });
+
+        if (!deletedAccount) {
+            return res.status(404).json({
+                success: false,
+                message: "Service Account not found."
+            });
+        }
+
+
+        return res.json({
+            success: true,
+            message: "Service Account Deleted Successfully."
+        })
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "It seems something went wrong."
+        })
+    }
+}

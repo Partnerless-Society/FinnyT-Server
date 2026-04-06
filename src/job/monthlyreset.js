@@ -11,7 +11,7 @@ cron.schedule('0 0 1 * *', async () => {
     try {
         const allUsers = await userquery.find({});
         const now = new Date();
-        
+
         const lastDayOfPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
 
         const currentMonth = lastDayOfPrevMonth.getMonth() + 1;
@@ -20,6 +20,8 @@ cron.schedule('0 0 1 * *', async () => {
         const reportPromises = allUsers.map(async (user) => {
             try {
                 const dashboarddata = await dataquery.findOne({ userId: user._id });
+
+                console.log(dashboarddata);
 
                 const reportPayload = {
                     income: dashboarddata?.income || 0,
@@ -61,11 +63,11 @@ cron.schedule('0 0 1 * *', async () => {
                 })
 
                 await dataquery.findOneAndUpdate({
-                    userId : user._id
-                },{
-                    $set : {
-                        income : 0,
-                        outcome : 0
+                    userId: user._id
+                }, {
+                    $set: {
+                        income: 0,
+                        outcome: 0
                     }
                 })
 
@@ -80,4 +82,6 @@ cron.schedule('0 0 1 * *', async () => {
     } catch (err) {
         console.error("CRITICAL Cron Error:", err);
     }
+}, {
+    timezone: "Asia/Yangon"
 });

@@ -6,6 +6,7 @@ import { mongoconnect } from "./services/mongoconnect.js";
 import dataroute from "./routes/backendroute/dataroute.js";
 import airoute from "./routes/airoute/airoute.js";
 import serviceroute from "./routes/airoute/serviceroute.js";
+import "../src/job/monthlyreset.js";
 
 await mongoconnect();
 
