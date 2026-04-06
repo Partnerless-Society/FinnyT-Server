@@ -154,7 +154,7 @@ export const googlelogin = async (req, res) => {
             //httpOnly: false,
             httpOnly : true,
             secure : process.env.NODE_ENV === "production",
-            sameSite: "strict"
+            sameSite: "none"
         })
 
         return res.json({
