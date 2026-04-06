@@ -7,19 +7,19 @@ import { editSheetData, readSheetData } from "../tools/googlesheettool.js";
 
 //Analyse Ai
 export const Ai = new ChatGroq({
-   apiKey : process.env.Ai,
+   apiKey : process.env.AI,
    model : "moonshotai/kimi-k2-instruct",
 })
 
 //Vision Ai
 export const Aiimage = new ChatGroq({
-    apiKey : process.env.Ai,
+    apiKey : process.env.AI,
     model : "meta-llama/llama-4-scout-17b-16e-instruct"
 })
 
 //AiAgent to For Google Sheet Update, Auto Update and other services
 export const Aiagent = new ChatGroq({
-    apiKey : process.env.Ai,
+    apiKey : process.env.AI,
     model : "moonshotai/kimi-k2-instruct-0905"
 })
 
