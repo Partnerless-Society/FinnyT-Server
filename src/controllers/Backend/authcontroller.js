@@ -49,11 +49,12 @@ export const login = async (req, res) => {
             id: findemail._id,
         }, process.env.JWT)
 
-        res.cookie("session", token, {
+       const isProduction = process.env.NODE_ENV === "production";
+        res.cookie("session", session, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
-            secure: true,
-            sameSite: "none"
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax"
         });
 
         return res.json({
@@ -148,11 +149,12 @@ export const googlelogin = async (req, res) => {
             id: findemail._id,
         }, process.env.JWT)
 
-        res.cookie("session", token, {
+const isProduction = process.env.NODE_ENV === "production";
+        res.cookie("session", session, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
-            secure: true,
-            sameSite: "none"
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax"
         });
 
         return res.json({
