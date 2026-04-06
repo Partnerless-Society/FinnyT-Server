@@ -4,7 +4,14 @@ import typequery from "../../model/typequery.js";
 
 export const create = async (req, res) => {
     const { id, type, amount, category, source } = req.body;
-    console.log(id);
+
+    if (!type || !amount || !category || !source) {
+        return res.status(400).json({
+            success: false,
+            message: "Please Provide All The Required Fields."
+        });
+    }
+    
     try {
         //Update Income And Outcome
         await incomeoutcomquery.findOneAndUpdate({
@@ -162,8 +169,8 @@ export const fetchtrackoutcome = async (req, res) => {
 export const fetchchartincome = async (req, res) => {
     const { id } = req.query;
     try {
-       const data = await typequery.findOne(
-            { userId: id }, 
+        const data = await typequery.findOne(
+            { userId: id },
             {
                 data: {
                     $filter: {
@@ -198,8 +205,8 @@ export const fetchchartincome = async (req, res) => {
 export const fetchchartoutcome = async (req, res) => {
     const { id } = req.query;
     try {
-      const data = await typequery.findOne(
-            { userId: id }, 
+        const data = await typequery.findOne(
+            { userId: id },
             {
                 data: {
                     $filter: {

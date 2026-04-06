@@ -4,7 +4,12 @@ import { testgmail } from "../../services/googleservice.js"
 export const Testconnection = async (req, res) => {
     const { id, email, key } = req.body;
     try {
-
+        if(!email || key){
+            return res.status(400).json({
+                success: false,
+                message: "Please Provide The Credentials."
+            });
+        }
         await testgmail(email, key);
 
         await serviceaccountquery.findOneAndUpdate({
@@ -62,6 +67,14 @@ export const fetchservicedata = async (req, res) => {
 export const AddUrl = async (req, res) => {
     const { id, url } = req.body;
     try {
+
+        if(!id || !url) {
+            return res.status(400).json({
+                success: false,
+                message: "Please Provide The Url"
+            });
+        }
+
         await serviceaccountquery.findOneAndUpdate({
             userId: id
         }, {

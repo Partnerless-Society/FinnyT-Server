@@ -56,7 +56,6 @@ export const Agentgooglesheetcreate = async (req, res) => {
 export const Agentgooglesheetupdate = async (req, res) => {
     const { id, url, prompt, row, col } = req.body;
 
-    
     const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
     const spreadsheetid = match ? match[1] : null;
 

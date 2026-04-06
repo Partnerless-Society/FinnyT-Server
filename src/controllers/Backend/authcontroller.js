@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import "../../config/dotenvconfig.js"
 import dataquery from "../../model/dataquery.js";
-import monthlyreport from "../../model/monthlyreport.js";
+import supportquery from "../../model/supportquery.js";
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
@@ -151,9 +151,9 @@ export const googlelogin = async (req, res) => {
 
         res.cookie("session", token, {
             maxAge: 24 * 60 * 60 * 60,
-            httpOnly: false,
-            //httpOnly : true,
-            //secure : process.env.NODE_ENV === "production",
+            //httpOnly: false,
+            httpOnly : true,
+            secure : process.env.NODE_ENV === "production",
             sameSite: "strict"
         })
 
@@ -213,4 +213,28 @@ export const handlelogout = async (req, res) => {
         success: true,
         message: "Successfully Logged out"
     });
+}
+
+export const support = async (req, res) => {
+    const { name, email, message } = req.body;
+    try{
+        console.log(name, email, message);
+        await supportquery.create({
+            name,
+            email,
+            message
+        });
+
+        return res.json({
+            success : true,
+            message : "Your Message Has Been Received. We Will Get Back To You Soon."
+        })
+    }
+    catch(err){
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: "It seems something went wrong."
+        });
+    }
 }
