@@ -11,9 +11,9 @@ export const login = async (req, res) => {
     const now = new Date();
 
     try {
-       const findemail = await userquery.findOne({ 
-            email, 
-            type: "finnyT" 
+        const findemail = await userquery.findOne({
+            email,
+            type: "finnyT"
         });
 
         if (!findemail) {
@@ -44,18 +44,17 @@ export const login = async (req, res) => {
             { upsert: true }
         );
 
-      
+
         const token = jwt.sign({
             id: findemail._id,
         }, process.env.JWT)
 
         res.cookie("session", token, {
-            maxAge: 24 * 60 * 60 * 60,
-            httpOnly: false,
-            //httpOnly : true,
-            //secure : process.env.NODE_ENV === "production",
-            sameSite: "strict"
-        })
+            maxAge: 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        });
 
         return res.json({
             success: true,
@@ -150,12 +149,11 @@ export const googlelogin = async (req, res) => {
         }, process.env.JWT)
 
         res.cookie("session", token, {
-            maxAge: 24 * 60 * 60 * 60,
-            //httpOnly: false,
-            httpOnly : true,
-            secure : process.env.NODE_ENV === "production",
+            maxAge: 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            secure: true,
             sameSite: "none"
-        })
+        });
 
         return res.json({
             success: true,
@@ -217,7 +215,7 @@ export const handlelogout = async (req, res) => {
 
 export const support = async (req, res) => {
     const { name, email, message } = req.body;
-    try{
+    try {
         console.log(name, email, message);
         await supportquery.create({
             name,
@@ -226,11 +224,11 @@ export const support = async (req, res) => {
         });
 
         return res.json({
-            success : true,
-            message : "Your Message Has Been Received. We Will Get Back To You Soon."
+            success: true,
+            message: "Your Message Has Been Received. We Will Get Back To You Soon."
         })
     }
-    catch(err){
+    catch (err) {
         console.log(err);
         return res.status(500).json({
             success: false,
