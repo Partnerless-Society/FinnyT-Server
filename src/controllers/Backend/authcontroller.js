@@ -49,8 +49,8 @@ export const login = async (req, res) => {
             id: findemail._id,
         }, process.env.JWT)
 
-       const isProduction = process.env.NODE_ENV === "production";
-        res.cookie("session", session, {
+        const isProduction = process.env.NODE_ENV === "production";
+        res.cookie("session", token, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
             secure: isProduction,
@@ -149,8 +149,8 @@ export const googlelogin = async (req, res) => {
             id: findemail._id,
         }, process.env.JWT)
 
-const isProduction = process.env.NODE_ENV === "production";
-        res.cookie("session", session, {
+        const isProduction = process.env.NODE_ENV === "production";
+        res.cookie("session", token, {
             maxAge: 24 * 60 * 60 * 1000,
             httpOnly: true,
             secure: isProduction,
