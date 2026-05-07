@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "https://finnyt-project.vercel.app",
+    origin: "https://finnyt-pj.vercel.app",
     credentials: true
 }));
 app.use((err, req, res, next) => {
